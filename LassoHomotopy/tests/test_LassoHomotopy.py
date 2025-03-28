@@ -22,8 +22,21 @@ def test_predict():
     results = model.fit(X, y)
     preds = results.predict(X)
     
-    # Compute Mean Squared Error (MSE) for validation
+    # Compute Mean Squared Error (MSE)
     mse = np.mean((preds - y) ** 2)
+    
+    # Compute R-squared
+    ss_total = np.sum((y - np.mean(y)) ** 2)
+    ss_residual = np.sum((y - preds) ** 2)
+    r2_score = 1 - (ss_residual / ss_total)
+    
+    # Compute RMSE
+    rmse = np.sqrt(mse)
+    
+    # Print R-squared and RMSE
+    print(f"R-squared: {r2_score:.4f}")
+    print(f"RMSE: {rmse:.4f}")
     
     # Ensure MSE is within an acceptable threshold
     assert mse < 12, f"High MSE: {mse}, Predictions: {preds}, Actual: {y}"
+

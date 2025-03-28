@@ -1,3 +1,8 @@
 numpy
 pytest
 ipython
+numpy 
+pandas 
+matplotlib 
+seaborn
+scikit-learn

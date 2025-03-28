@@ -1,7 +1,42 @@
 # Lasso Regression using the Homotopy Method
 
+
 ## Overview
 This project implements **LASSO (Least Absolute Shrinkage and Selection Operator) regression** using the **Homotopy Method** from first principles. LASSO is a linear regression model that introduces L1 regularization, encouraging sparsity in the solution by shrinking some coefficients to zero. The Homotopy Method efficiently finds the entire LASSO path as the regularization parameter changes.
+
+
+### Code Explanation
+The implementation is centered on the `LassoHomotopyModel` class which follows a simplified homotopy (LARS-like) method:
+- **Initialization:**  
+  The model accepts optional tuning parameters such as tolerance (`tol`) and maximum iterations (`max_iter`) and initializes the coefficients to zero.
+- **Fitting Procedure:**  
+  - The algorithm starts by computing the maximum absolute correlation between the predictors and the target, which is used as the initial regularization parameter (\( \lambda \)).
+  - In each iteration, it identifies the predictor most correlated with the current residual and adds it to the active set.
+  - The model then solves the least squares problem restricted to the active set to update the coefficients.
+  - The residual is recalculated and \( \lambda \) is updated based on the new correlations.
+  - This process repeats until \( \lambda \) falls below the specified tolerance or the maximum number of iterations is reached.
+- **Prediction:**  
+  After fitting, the `LassoHomotopyResults` class provides a `predict` method to compute outputs for new inputs based on the learned coefficients.
+
+
+### Test Cases Overview
+Three main test files are provided to validate the model:
+1. **small_test.csv:**  
+   - Checks basic model performance on a small dataset.
+   - Evaluates metrics such as R-squared and RMSE to ensure that the Mean Squared Error (MSE) is below a specified threshold.
+2. **collinear_data.csv:**  
+   - Tests the model on data with highly collinear features.
+   - Verifies that the model yields a sparse solution by ensuring that at least one coefficient is near zero.
+   - Also checks that prediction accuracy remains within acceptable bounds.
+3. **new_test_data.csv:**  
+   - Ensures that the model performs well on a different test set with a smaller number of features.
+   - Again, the MSE is checked to ensure that predictions are accurate.
+4. **new_large_test_data.csv:**  
+   - Tests the model on a larger dataset with a greater number of features.
+   - Evaluates how well the algorithm scales and whether it continues to produce accurate predictions with increasing complexity.
+   - Ensures computational efficiency while maintaining accuracy.
+
+---
 
 ## Installation and Setup
 To set up and run this project, follow these steps:
@@ -40,6 +75,9 @@ To set up and run this project, follow these steps:
    Run With Verbose:-
    pytest LassoHomotopy/tests/ -V
 
+   Run with verbose output:
+   pytest LassoHomotopy/tests/ -s -V
+
    ```
 
 ## Generating Test Data
@@ -48,6 +86,27 @@ To generate a working CSV file for testing, use the following command:
 python generate_regression_data.py -N 100 -m 1.0 2.0 -b 0.5 -scale 0.1 -rnge 0 1 -seed 42 -output_file new_test_data.csv
 ```
 This will create `new_test_data.csv`, which can be used for testing the LASSO model, Put that file in tests Directory with the other CSV files.
+
+To generate a Large working CSV file for testing, use the following command:
+```sh
+python generate_regression_data.py -N 2000 -m 1.0 1.5 2.0 2.5 
+3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5 8.0 -b 0.5 -scale 0.1 -rnge 0 1 -seed 42 -output_file new_large_test_data.csv
+```
+This will create `new_large_test_data.csv`, which can be used for testing the LASSO model, Put that file in tests Directory with the other CSV files.
+
+---
+
+## Evaluation Metrics
+The model's performance is evaluated using the following metrics:
+
+- **Mean Squared Error (MSE):** Measures the average squared difference between actual and predicted values. A lower MSE indicates better model performance.
+  \[ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \]
+
+- **R-Squared (R²):** Indicates how well the model explains the variability of the target variable. A value closer to 1 means better model performance.
+  \[ R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2} \]
+
+- **Root Mean Squared Error (RMSE):** The square root of MSE, providing an interpretable metric in the same unit as the target variable.
+  \[ RMSE = \sqrt{MSE} \]
 
 ---
 
@@ -87,6 +146,36 @@ The model allows users to set:
 
 ---
 
-## Contributing
-Contributions are welcome! Feel free to submit a pull request with improvements or fixes.
+
+## Contributors: -
+**Neel Patel (A20524638) - npatel157@hawk.iit.edu**
+**Karan Savaliya (A20539487) - ksavaliya@hawk.iit.edu**
+**Deep Patel (A20545631) - dpatel224@hawk.iit.edu**
+**Johan Vijayan (A20553527) - jvijayan1@hawk.iit.edu**
+
+Additional Contributions are welcome! Feel free to submit a pull request with improvements or fixes.
+
+---
+
+
+### References
+
+- **Primary Paper: LASSO Homotopy Method (NIPS 2008)**
+  - **Description:** This paper, along with its references, guided the implementation of the Homotopy method for LASSO regression.
+  - **Link:** [https://people.eecs.berkeley.edu/~elghaoui/Pubs/hom_lasso_NIPS08.pdf](https://people.eecs.berkeley.edu/~elghaoui/Pubs/hom_lasso_NIPS08.pdf)
+
+- **Regression Shrinkage and Selection via the Lasso - Tibshirani (1996)**
+  - **Contains:** LASSO formulation, optimization strategies, and an early approach to solving LASSO.
+  - **Link:** [https://doi.org/10.2307/2346178](https://doi.org/10.2307/2346178)  
+    *(Alternatively, see [https://projecteuclid.org/euclid.ss/1038427203](https://projecteuclid.org/euclid.ss/1038427203))*
+  - **Section:** Algorithmic description is in Section 3, discussing the coordinate descent and penalty function.
+
+- **Homotopy Algorithm for LASSO - Osborne et al. (2000)**
+  - **Contains:** Detailed mathematical formulation of the homotopy algorithm used for LASSO.
+  - **Link:** [https://www2.isye.gatech.edu/~presnell/draps.pdf](https://www2.isye.gatech.edu/~presnell/draps.pdf)
+  - **Section:** Algorithm in Section 4, describing how lambda is updated iteratively, similar to the implementation in this project.
+
+- **Additional Reference:**
+  - This project’s code is also informed by various open-source implementations and academic resources on LASSO regression and the Homotopy Method.
+
 
