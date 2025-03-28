@@ -249,14 +249,14 @@ This notebook walks through a complete implementation of **LASSO Regression usin
 
 ### 📌 Summary Table
 
-| Dataset                 | Samples | Features | Purpose                        | MSE     | R²     | Sparsity Achieved |
-|-------------------------|---------|----------|--------------------------------|---------|--------|-------------------|
-| `small_test.csv`        | 50      | 3        | Basic test                     | ~11.6   | ~0.98  | ❌ No              |
-| `collinear_data.csv`    | 1000    | 10       | Handle collinearity            | ~4.06   | ~0.84  | ✅ Yes             |
-| `new_test_data.csv`     | 100     | 2        | Small linear model             | ~0.042  | ~0.91  | ❌ No              |
-| `new_large_test_data.csv`| 2000   | 15       | Sparse recovery + scale test   | ~0.0157 | ~0.9995| ✅ Yes             |
-| `WineQT.csv`            | ~1000   | 11       | Real-world regression + SHAP   | Custom  | Custom | ✅ Yes             |
-| `Diabetes (sklearn)`    | 442     | 10       | Real-world regression          | Custom  | Custom | ✅ Yes             |
+| Dataset                 | Samples | Features | Purpose                        | MSE     | R²     | 
+|-------------------------|---------|----------|--------------------------------|---------|--------|
+| `small_test.csv`        | 50      | 3        | Basic test                     | ~11.6   | ~0.98  | 
+| `collinear_data.csv`    | 1000    | 10       | Handle collinearity            | ~4.06   | ~0.84  | 
+| `new_test_data.csv`     | 100     | 2        | Small linear model             | ~0.042  | ~0.91  | 
+| `new_large_test_data.csv`| 2000   | 15       | Sparse recovery + scale test   | ~0.0157 | ~0.9995| 
+| `WineQT.csv`            | ~1000   | 11       | Real-world regression + SHAP   | Custom  | Custom | 
+| `Diabetes (sklearn)`    | 442     | 10       | Real-world regression          | Custom  | Custom | 
 
 ---
 

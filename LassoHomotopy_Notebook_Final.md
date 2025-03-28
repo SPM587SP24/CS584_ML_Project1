@@ -56,6 +56,12 @@ Three primary datasets were used for comprehensive testing:
 
 3.  new_test_data.csv: Additional test dataset
 
+4.  new_Large_test_data.csv: Additional test dataset
+
+5.  WineQT : Additinal test dataset
+
+6.  wine_result : Additinal test dataset
+
 ## **4. Implementation Components** {#implementation-components}
 
 ### **4.1 Data Loading and Visualization Function** {#data-loading-and-visualization-function}
@@ -180,15 +186,55 @@ plt.show()
 
 6.  Assert prediction accuracy
 
+Feature Correlation Matrix Analysis  
+Overview
+
+This correlation matrix visualizes the relationships between multiple features (x0-x14) and a target variable (y) in a dataset.
+
+Key Observations
+
+Target Variable Correlations
+
+- Most features have weak correlations with the target variable (y)
+- Top correlating features with y:
+  - x14: 0.41
+  - x13: 0.41
+  - x12: 0.38
+  - x11: 0.36
+
+Feature Independence
+
+- Inter-feature correlations are predominantly close to zero
+- Indicates minimal multicollinearity between features
+- Suggests features are largely independent of each other
+
+Interpretation
+
+- Low correlations suggest that:
+  1. Features provide diverse information
+  2. Linear models might struggle to capture complex relationships
+  3. Non-linear models or feature engineering could be beneficial
+
+Visualization Notes
+
+- Dark red: Strong positive correlation (1.0)
+- White: No correlation (0)
+- Dark blue: Negative correlation
+
 ## **6. Experimental Results** {#experimental-results}
 
 ### **Dataset Performance Metrics**
 
-| **Dataset**        | **Features**  | **Target** | **Mean Squared Error** |
-| ------------------ | ------------- | ---------- | ---------------------- |
-| small_test.csv     | x_0, x_1, x_2 | y          | 11.6143                |
-| collinear_data.csv | X_1 to X_10   | target     | 4.0593                 |
-| new_test_data.csv  | x_0, x_1      | y          | 0.0419                 |
+| Dataset                   | Samples | Features | Purpose                      | MSE      | RMSE    | R²      |
+| ------------------------- | ------- | -------- | ---------------------------- | -------- | ------- | ------- |
+| `small_test.csv`          | 50      | 3        | Basic regression validation  | ~11.61   | ~3.41   | ~0.98   |
+| `collinear_data.csv`      | 1000    | 10       | Handles multicollinearity    | ~4.06    | ~2.02   | ~0.84   |
+| `new_test_data.csv`       | 100     | 2        | Simple 2-feature test        | ~0.042   | ~0.20   | ~0.91   |
+| `new_large_test_data.csv` | 2000    | 15       | High-dimensional regression  | ~0.0157  | ~0.1252 | ~0.9995 |
+| `WineQT.csv`              | ~1000   | 11       | Real-world regression + SHAP | ~0.58    | ~0.76   | ~0.46   |
+| `Diabetes`                | 442     | 10       | Real-world regression        | ~2859.70 | ~53.48  | ~0.52   |
+
+---
 
 ## **7. Visualizations** {#visualizations}
 
@@ -230,8 +276,33 @@ The LASSO Homotopy Model demonstrates:
 
 - Implement cross-validation.
 
-Synthetic Data Experiment: Lasso Homotopy Method Analysis  
-Data Generation Process
+* Model Performance Analysis
+* Predictions vs Actual Plot
+
+Key Observations
+
+- Near-perfect alignment between predicted and actual values
+- Blue dots (predictions) closely follow the red dashed line (ideal prediction)
+- Consistent performance across the entire value range (15-55)
+- Suggests high model accuracy and good generalization
+
+LASSO Coefficients Magnitude Plot
+
+Feature Importance Insights
+
+- Increasing coefficient magnitudes from left to right
+- Features with indices 12-14 have the highest coefficient values
+- Suggests these features (x12, x13, x14) are most important for prediction
+- Gradual increase in feature weights indicates complex but structured relationship
+
+Model Performance Metrics
+
+- Mean Squared Error (MSE): 0.0157
+- Extremely low MSE indicates excellent model fit
+- LASSO regression effectively captured underlying data patterns
+
+- Synthetic Data Experiment: Lasso Homotopy Method Analysis
+- Data Generation Process
 
 Synthetic Dataset Creation
 
@@ -446,9 +517,3 @@ Key Findings
 Interpretation
 
 The model uses a Lasso regression approach with careful lambda tuning to predict wine quality. While the predictive power is moderate, the SHAP analysis provides valuable insights into how different chemical properties impact wine quality prediction.
-
-Recommendations:
-
-- Consider feature engineering
-- Explore non-linear models
-- Collect more data if possible
