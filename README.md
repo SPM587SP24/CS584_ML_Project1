@@ -110,6 +110,157 @@ The model's performance is evaluated using the following metrics:
 
 ---
 
+## 📓 Notebook Walkthrough: Detailed LASSO Homotopy Experiments
+
+This notebook walks through a complete implementation of **LASSO Regression using the Homotopy Method**, with applications to multiple datasets. Each dataset tests different properties — from feature selection to performance with collinearity and real-world data. Additional experiments include synthetic data and SHAP explainability.
+
+---
+
+### 🔍 Dataset 1: `small_test.csv`
+
+**Structure:**  
+- **Samples:** 50  
+- **Features:** 3 (`x_0`, `x_1`, `x_2`)  
+- **Target:** `y`
+
+**Purpose:** Test basic functionality of the Homotopy model on a small, clean dataset.
+
+**Behavior:**  
+- All features retained.
+- No sparsity enforced due to all features contributing.
+- Coefficients remain non-zero throughout the path.
+
+**Evaluation:**  
+- MSE ≈ 11.6  
+- R² ≈ 0.98  
+
+---
+
+### 🔍 Dataset 2: `collinear_data.csv`
+
+**Structure:**  
+- **Samples:** 1000  
+- **Features:** 10 (`X_1` to `X_10`)  
+- **Target:** `target`
+
+**Purpose:** Validate how the model handles multicollinearity.
+
+**Behavior:**  
+- LASSO drops redundant features.
+- Only a sparse subset retained.
+- Reflects LASSO’s strength in feature selection.
+
+**Evaluation:**  
+- MSE ≈ 4.06  
+- R² ≈ 0.84  
+- Sparsity: Yes
+
+---
+
+### 🔍 Dataset 3: `new_test_data.csv`
+
+**Structure:**  
+- **Samples:** 100  
+- **Features:** 2 (`x_0`, `x_1`)  
+- **Target:** `y`
+
+**Purpose:** Demonstrate simple, low-noise linear regression.
+
+**Behavior:**  
+- Both features retained.
+- Coefficients accurately reflect feature importance.
+
+**Evaluation:**  
+- MSE ≈ 0.0419  
+- R² ≈ 0.91  
+- Sparsity: No (both features are relevant)
+
+---
+
+### 🔍 Dataset 4: `new_large_test_data.csv`
+
+**Structure:**  
+- **Samples:** 2000  
+- **Features:** 15 (`x_0` to `x_14`)  
+- **Target:** `y`
+
+**Purpose:** Stress test for scalability and feature sparsity.
+
+**Behavior:**  
+- Only meaningful features retained.
+- Coefficients of irrelevant features shrunk to zero.
+
+**Evaluation:**  
+- MSE ≈ 0.0157  
+- R² ≈ 0.9995  
+- Sparsity: High
+
+---
+
+### 🧪 Synthetic Dataset
+
+**Setup:**  
+- 100 samples, 10 features.
+- True coefficient vector known.
+- `y` created with noise added.
+
+**Behavior:**  
+- Model accurately recovers correct non-zero coefficients.
+- Demonstrates correctness of implementation.
+
+**Visuals:**  
+- Stem plot of learned coefficients vs true
+- Prediction vs actual plot
+
+---
+
+### 🍷 Wine Quality Dataset (`WineQT.csv`)
+
+**Setup:**  
+- Real-world dataset with 11 features.
+- Target: Wine quality score (integer)
+
+**Steps:**  
+- Standardization + normalization
+- Cross-validation to find best λ
+- Predictions rounded and saved
+- SHAP explainability plots created
+
+**Evaluation:**  
+- Metrics: MSE, RMSE, R² printed
+- SHAP summary and dependence plots saved
+
+---
+
+### 💉 Diabetes Dataset (`sklearn.datasets.load_diabetes`)
+
+**Setup:**  
+- Built-in real-world dataset from sklearn
+
+**Steps:**  
+- Model trained and evaluated on full data
+- Coefficient sparsity and predictions analyzed
+
+**Evaluation:**  
+- MSE printed
+- Coefficient plot shows LASSO shrinkage effect
+
+---
+
+### 📌 Summary Table
+
+| Dataset                 | Samples | Features | Purpose                        | MSE     | R²     | Sparsity Achieved |
+|-------------------------|---------|----------|--------------------------------|---------|--------|-------------------|
+| `small_test.csv`        | 50      | 3        | Basic test                     | ~11.6   | ~0.98  | ❌ No              |
+| `collinear_data.csv`    | 1000    | 10       | Handle collinearity            | ~4.06   | ~0.84  | ✅ Yes             |
+| `new_test_data.csv`     | 100     | 2        | Small linear model             | ~0.042  | ~0.91  | ❌ No              |
+| `new_large_test_data.csv`| 2000   | 15       | Sparse recovery + scale test   | ~0.0157 | ~0.9995| ✅ Yes             |
+| `WineQT.csv`            | ~1000   | 11       | Real-world regression + SHAP   | Custom  | Custom | ✅ Yes             |
+| `Diabetes (sklearn)`    | 442     | 10       | Real-world regression          | Custom  | Custom | ✅ Yes             |
+
+---
+
+
 ## Q&A
 ### 1. What does the model you have implemented do and when should it be used?
 This model solves a **LASSO regression problem** using the **Homotopy Method**, which efficiently finds solutions as the regularization parameter \( \lambda \) changes.
@@ -148,10 +299,10 @@ The model allows users to set:
 
 
 ## Contributors: -
-**Neel Patel (A20524638) - npatel157@hawk.iit.edu**
-**Karan Savaliya (A20539487) - ksavaliya@hawk.iit.edu**
-**Deep Patel (A20545631) - dpatel224@hawk.iit.edu**
-**Johan Vijayan (A20553527) - jvijayan1@hawk.iit.edu**
+- **Neel Patel (A20524638) - npatel157@hawk.iit.edu**
+- **Karan Savaliya (A20539487) - ksavaliya@hawk.iit.edu**
+- **Deep Patel (A20545631) - dpatel224@hawk.iit.edu**
+- **Johan Vijayan (A20553527) - jvijayan1@hawk.iit.edu**
 
 Additional Contributions are welcome! Feel free to submit a pull request with improvements or fixes.
 
