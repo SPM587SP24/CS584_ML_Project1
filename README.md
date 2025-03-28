@@ -247,18 +247,19 @@ This notebook walks through a complete implementation of **LASSO Regression usin
 
 ---
 
-### 📌 Summary Table
+## 📌 Summary
 
-| Dataset                 | Samples | Features | Purpose                        | MSE     | R²     | 
-|-------------------------|---------|----------|--------------------------------|---------|--------|
-| `small_test.csv`        | 50      | 3        | Basic test                     | ~11.6   | ~0.98  | 
-| `collinear_data.csv`    | 1000    | 10       | Handle collinearity            | ~4.06   | ~0.84  | 
-| `new_test_data.csv`     | 100     | 2        | Small linear model             | ~0.042  | ~0.91  | 
-| `new_large_test_data.csv`| 2000   | 15       | Sparse recovery + scale test   | ~0.0157 | ~0.9995| 
-| `WineQT.csv`            | ~1000   | 11       | Real-world regression + SHAP   | Custom  | Custom | 
-| `Diabetes (sklearn)`    | 442     | 10       | Real-world regression          | Custom  | Custom | 
+| Dataset                  | Samples | Features | Purpose                         | MSE       | RMSE     | R²       |
+|--------------------------|---------|----------|----------------------------------|-----------|----------|----------|
+| `small_test.csv`         | 50      | 3        | Basic regression validation      | ~11.61    | ~3.41    | ~0.98    |
+| `collinear_data.csv`     | 1000    | 10       | Handles multicollinearity        | ~4.06     | ~2.02    | ~0.84    |
+| `new_test_data.csv`      | 100     | 2        | Simple 2-feature test            | ~0.042    | ~0.20    | ~0.91    |
+| `new_large_test_data.csv`| 2000    | 15       | High-dimensional regression      | ~0.0157   | ~0.1252  | ~0.9995  |
+| `WineQT.csv`             | ~1000   | 11       | Real-world regression + SHAP     | ~0.58     | ~0.76    | ~0.46    |
+| `Diabetes`               | 442     | 10       | Real-world regression            | ~2859.70  | ~53.48   | ~0.52    |
 
 ---
+
 
 
 ## Q&A
